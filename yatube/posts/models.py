@@ -26,7 +26,7 @@ class Post(models.Model):
         verbose_name='Текст поста',
         help_text='Расскажите о чём-то интересном')
     pub_date = models.DateTimeField(auto_now_add=True,
-    db_index=True)
+                                    db_index=True)
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -45,13 +45,12 @@ class Post(models.Model):
         help_text='Размер картинки 960 на 339, картинки обрезаются',
         upload_to='posts/',
         blank=True)
-    
+
     def __str__(self):
         return self.text[: LIMIT_POST]
 
     class Meta:
         ordering = ['-pub_date']
-
 
 
 class Comment(models.Model):
@@ -74,6 +73,7 @@ class Comment(models.Model):
     class Meta:
         ordering = ['-created']
 
+
 class Follow(models.Model):
     user = models.ForeignKey(
         User,
@@ -85,4 +85,4 @@ class Follow(models.Model):
         related_name='following')
 
     class Meta:
-        unique_together = ['author', 'user',]
+        unique_together = ['author','user',]

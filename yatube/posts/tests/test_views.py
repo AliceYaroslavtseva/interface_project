@@ -181,14 +181,14 @@ class PostsURLTests(TestCase):
         self.assertEqual(len(response.context['page_obj']), 0)
 
     def test_new_post_image(self):
-        small_gif = (            
-             b'\x47\x49\x46\x38\x39\x61\x02\x00'
-             b'\x01\x00\x80\x00\x00\x00\x00\x00'
-             b'\xFF\xFF\xFF\x21\xF9\x04\x00\x00'
-             b'\x00\x00\x00\x2C\x00\x00\x00\x00'
-             b'\x02\x00\x01\x00\x00\x02\x02\x0C'
-             b'\x0A\x00\x3B'
-        )
+        small_gif = (  
+            b'\x47\x49\x46\x38\x39\x61\x02\x00'
+            b'\x01\x00\x80\x00\x00\x00\x00\x00'
+            b'\xFF\xFF\xFF\x21\xF9\x04\x00\x00'
+            b'\x00\x00\x00\x2C\x00\x00\x00\x00'
+            b'\x02\x00\x01\x00\x00\x02\x02\x0C'
+            b'\x0A\x00\x3B'
+            )
         uploaded = SimpleUploadedFile(
             name='small.gif',
             content=small_gif,
@@ -201,21 +201,22 @@ class PostsURLTests(TestCase):
             image=uploaded,
         )
         new_post_image_on_page = ((reverse('posts:index')),
-                            (reverse('posts:group_list',
-                                     kwargs={'slug': 'test-slug'})),
-                            (reverse('posts:profile',
-                                     kwargs={'username': 'user'})),
-                            (reverse('posts:post_detail',
-                                     kwargs={'post_id': 1})),)
+                                   (reverse('posts:group_list',
+                                            kwargs={'slug': 'test-slug'})),
+                                   (reverse('posts:profile',
+                                            kwargs={'username': 'user'})),
+                                   (reverse('posts:post_detail',
+                                            kwargs={'post_id': 1})),)
         for page in new_post_image_on_page:
             with self.subTest(template=page):
                 response = self.authorized_client.get(page)
                 first_post_image = response.context
-                self.assertTrue(first_post_image, Post.objects.filter(text='Новый пост с картинкой',
-                                                    group=self.group.id,
-                                                    author=self.user,
-                                                    image='posts/small.gif'
-                                                    ).exists())
+                self.assertTrue(first_post_image, Post.objects.filter
+                (text='Новый пост с картинкой',
+                group=self.group.id,
+                author=self.user,
+                image='posts/small.gif'
+                ).exists())
 
     def test_cache_index_page(self):
         self.post = Post.objects.create(
@@ -238,9 +239,9 @@ class PostsURLTests(TestCase):
         self.assertTrue(Follow.objects. filter(author=self.user,
         user=self.follower).exists())
         self.authorized_follower.post(reverse('posts:profile_unfollow',
-        kwargs={'username':'user'}))
+                                              kwargs={'username': 'user'}))
         self.assertFalse(Follow.objects.filter(author=self.user,
-        user=self.follower).exists())
+                                               user=self.follower).exists())
 
     def test_new_post(self):
         follow = Follow.objects.create(user=self.user, author=self.author)
@@ -249,7 +250,8 @@ class PostsURLTests(TestCase):
             text='testtext',
             group=self.group
         )
-        response_follow = self.authorized_client.get(reverse('posts:follow_index'))
+        response_follow = self.authorized_client.get(reverse
+                                                     ('posts:follow_index'))
         object = response_follow.context['page_obj']
         self.assertIn(self.post, object, follow)
 
@@ -259,7 +261,8 @@ class PostsURLTests(TestCase):
             text='testtext',
             group=self.group
         )
-        response_follow = self.authorized_client.get(reverse('posts:follow_index'))
+        response_follow = self.authorized_client.get(reverse
+                                                     ('posts:follow_index'))
         follow_index = response_follow.context['page_obj']
-        posts = Post.objects.filter(author__following__user = self.user)
+        posts = Post.objects.filter(author__following__user=self.user)
         self.assertNotIn(follow_index, posts)
