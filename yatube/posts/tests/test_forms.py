@@ -148,7 +148,7 @@ class PostsURLTests(TestCase):
         self.assertEqual(response.status_code, (HTTPStatus.OK))
 
     def test_try_comment(self):
-        comment_form = {'text': 'текст комментария',}
+        comment_form = {'text' : 'текст комментария',}
         response_guest = self.guest_client.post(reverse(
             'posts:add_comment', kwargs={'post_id': self.post.id}),
             data=comment_form)
@@ -163,7 +163,7 @@ class PostsURLTests(TestCase):
 
     def test_new_comment(self):
         comment_count = Comment.objects.count()
-        comment_form = {'text': 'Комментарий новый',}
+        comment_form = {'text' : 'Комментарий новый',}
         response = self.authorized_client.post(
             reverse('posts:add_comment', kwargs={'post_id': self.post.id}),
             data=comment_form,

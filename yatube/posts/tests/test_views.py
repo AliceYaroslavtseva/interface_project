@@ -211,10 +211,10 @@ class PostsURLTests(TestCase):
                 response = self.authorized_client.get(page)
                 first_post_image = response.context
                 self.assertTrue(first_post_image, Post.objects.filter
-                (text='Новый пост с картинкой',
-                 group=self.group.id,
-                 author=self.user,
-                 image='posts/small.gif').exists())
+                                (text='Новый пост с картинкой',
+                                 group=self.group.id,
+                                 author=self.user,
+                                 image='posts/small.gif').exists())
 
     def test_cache_index_page(self):
         self.post = Post.objects.create(

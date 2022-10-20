@@ -14,9 +14,7 @@ LIMIT: int = 10
 def index(request):
     post_list = Post.objects.all()
     context = {
-        'page_obj': paginator_for_page(post_list, request, LIMIT),
-        
-        }
+        'page_obj': paginator_for_page(post_list, request, LIMIT),}
     return render(request, 'posts/index.html', context)
 
 
