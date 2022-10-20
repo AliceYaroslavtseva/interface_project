@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Пост: {{ post.text }}
+{% endblock %}
+
+{% block priview %}
+  <h1>Пост пользователя: {{ post.author.get_full_name }}</h1>
+  <h3>Подробная информация о посте</h3>
+{% endblock %}
+
+{% block content %}
+<ul>
+    <li>
+      Автор: {{ post.author.get_full_name }}
+      <a href="{% url 'posts:profile' post.author.username %}">все посты пользователя</a>
+    </li>
+    <li>
+      Дата публикации: {{ post.pub_date|date:"d E Y" }}
+    </li>
+    {% if post.group %}
+    <li>
+      Группа: {{ post.group }}
+      <a href="{% url 'posts:group_list' post.group.slug %}">все записи группы</a>
+      {% endif %}
+    </li>
+  </ul>
+  {% if not forloop.last %}<hr>{% endif %}
+  <p>{{ post.text }}</p>
+  {% load thumbnail %}
+  {% thumbnail post.image "960x339" crop="center" upscale=True as im %}
+    <img class="card-img my-2" src="{{ im.url }}">
+  {% endthumbnail %}
+  {% if not forloop.last %}<hr>{% endif %}
+{% load user_filters %}
+{% if user.is_authenticated %}
+  <div class="card my-4">
+    <h5 class="card-header">Добавить комментарий:</h5>
+    <div class="card-body">
+      <form method="post" action="{% url 'posts:add_comment' post.id %}">
+        {% csrf_token %}      
+        <div class="form-group mb-2">
+          {% for field in form %}
+          {{ field|addclass:'form-control' }}
+          {% endfor %}
+        </div>
+        <button type="submit" class="btn btn-primary">Отправить</button>
+      </form>
+    </div>
+  </div>
+{% endif %}
+
+{% for comment in comments %}
+  <div class="media mb-4">
+    <div class="media-body">
+      <h5 class="mt-0">
+        <a href="{% url 'posts:profile' comment.author.username %}">
+          {{ comment.author.username }}
+        </a>
+      </h5>
+      <p>
+        {{ comment.text }}
+      </p>
+    </div>
+  </div>
+{% endfor %} 
+
+{% if not forloop.last %}<hr>{% endif %}
+  {% if user == post.author %}
+    <a href="{% url 'posts:post_edit' post.pk %}">
+      <h5>Редактировать запись</h5>
+    </a>
+  {% endif %}
+{% endblock %}

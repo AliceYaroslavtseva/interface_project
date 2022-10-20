@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Избранные авторы
+{% endblock %}
+
+{% block priview %}
+  <h1>Избранные авторы</h1>
+  <h3>Здесь представлены обновления ваших подписок</h3>
+{% endblock %}
+
+{% block content %}
+
+  {% include 'posts/includes/switcher.html' %}
+
+  {% for post in page_obj %}
+  <ul>
+    <li>
+      Автор:
+      <a href="{% url 'posts:profile' post.author.username %}">{{ post.author.get_full_name }}</a>
+    </li>
+    <li>
+      Дата публикации: {{ post.pub_date|date:"d E Y" }}
+    </li>
+  </ul>
+  <p>{{ post.text }}</p>
+  {% load thumbnail %}
+  {% thumbnail post.image "960x339" crop="center" upscale=True as im %}
+    <img class="card-img my-2" src="{{ im.url }}">
+  {% endthumbnail %}
+
+  <a href="{% url 'posts:post_detail' post.pk %}">подробная информация</a>
+
+  {% if post.group %}
+  <a href="{% url 'posts:group_list' post.group.slug %}">все записи группы</a>
+  {% endif %}
+
+  {% if not forloop.last %}<hr>{% endif %}
+  {% endfor %}
+
+{% include 'posts/includes/paginator.html' %}
+
+{% endblock %}
