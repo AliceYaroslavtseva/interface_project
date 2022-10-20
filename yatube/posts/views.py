@@ -15,8 +15,8 @@ def index(request):
     post_list = Post.objects.all()
     context = {
         'page_obj': paginator_for_page(post_list, request, LIMIT),
-
-    }
+        
+        }
     return render(request, 'posts/index.html', context)
 
 
@@ -37,8 +37,7 @@ def profile(request, username):
     if request.user.is_authenticated:
         following = Follow.objects.filter(
             author=author,
-            user=request.user
-            ).exists()
+            user=request.user).exists()
     context = {
         'author': author,
         'page_obj': paginator_for_page(user_posts, request, LIMIT),

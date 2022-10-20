@@ -85,4 +85,4 @@ class Follow(models.Model):
         related_name='following')
 
     class Meta:
-        unique_together = ['author','user',]
+        unique_together = ['author', 'user', ]
