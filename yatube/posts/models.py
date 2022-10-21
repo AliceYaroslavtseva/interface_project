@@ -3,6 +3,7 @@ from django.db import models
 
 User = get_user_model()
 LIMIT_POST: int = 15
+LIMIT_COMMENT: int = 250
 
 
 class Group(models.Model):
@@ -68,7 +69,7 @@ class Comment(models.Model):
         related_name='comments')
 
     def __str__(self):
-        return self.text
+        return self.text[: LIMIT_COMMENT]
 
     class Meta:
         ordering = ['-created']
