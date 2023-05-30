@@ -1,3 +1,6 @@
+## *Готовый проект: [aliceyaroslavtseva.pythonanywhere.com]*
+---
+
 ## 1. [Описание](#1)
 ## 2. [Запуск проекта](#2)
 ## 4. [Техническая информация](#3)
@@ -53,6 +56,9 @@ python3 manage.py runserver # Для Linux и macOS
 
   - Python
   - Django
+  - HTML
+  - CSS
+  - Bootstrap
 
 ---
 ## 4. Об авторе <a id=4></a>
