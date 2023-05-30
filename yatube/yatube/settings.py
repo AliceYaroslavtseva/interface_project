@@ -140,6 +140,8 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     '[::1]',
     'testserver',
+    'www.aliceyaroslavtseva.pythonanywhere.com',
+    'aliceyaroslavtseva.pythonanywhere.com',
 ]
 
 APPEND_SLASH = True

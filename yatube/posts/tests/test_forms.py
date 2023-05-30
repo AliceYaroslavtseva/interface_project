@@ -67,28 +67,6 @@ class PostsURLTests(TestCase):
         ).exists())
         self.assertEqual(response.status_code, (HTTPStatus.FOUND))
 
-    def test_post_id(self):
-        post_count = Post.objects.count()
-        form_data = {
-            'author': self.author,
-            'text': 'newtext',
-            'group': self.group.id,
-        }
-        response = self.authorized_client_author.post(
-            reverse('posts:post_create'),
-            data=form_data,
-        )
-        self.assertRedirects(response, reverse('posts:profile',
-                                               kwargs={'username':
-                                                       self.post.author}))
-        self.assertEqual(Post.objects.count(), post_count + 1)
-        self.assertTrue(Post.objects.filter(
-            text='newtext',
-            group=self.group.id,
-            author=self.author
-        ).exists())
-        self.assertEqual(response.status_code, (HTTPStatus.FOUND))
-
     def test_edit_post(self):
         """Test post save after edit"""
         form_data = {
