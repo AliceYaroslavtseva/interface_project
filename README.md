@@ -1,4 +1,4 @@
-## *Готовый проект: https://aliceyaroslavtseva.pythonanywhere.com/
+## *Готовый проект: https://aliceyaroslavtseva.pythonanywhere.com/*
 ---
 
 ## 1. [Описание](#1)
